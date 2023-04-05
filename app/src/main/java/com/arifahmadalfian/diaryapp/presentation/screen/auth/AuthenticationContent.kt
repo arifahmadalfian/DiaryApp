@@ -48,7 +48,8 @@ fun AuthenticationContent(
         }
         Column(
             modifier = Modifier
-                .weight(2f),
+                .weight(2f)
+                .padding(all = 16.dp),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
