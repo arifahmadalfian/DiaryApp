@@ -1,9 +1,7 @@
 package com.arifahmadalfian.diaryapp.presentation.screen.auth.route
 
-import android.util.Log
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -14,14 +12,18 @@ import com.stevdzasan.messagebar.rememberMessageBarState
 import com.stevdzasan.onetap.rememberOneTapSignInState
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.authenticationRoute() {
+fun NavGraphBuilder.authenticationRoute(
+    navigateToHome: () -> Unit
+) {
     composable(route = Screen.Authentication.route) {
         val viewModel: AuthenticationViewModel = viewModel()
+        val authenticated by viewModel.authenticated
         val loadingState by viewModel.loadingState
         val oneTapState = rememberOneTapSignInState()
         val messageBarState = rememberMessageBarState()
 
         AuthenticationScreen(
+            authenticated = authenticated,
             loadingState = loadingState,
             oneTapState = oneTapState,
             messageBarState = messageBarState,
@@ -43,8 +45,10 @@ fun NavGraphBuilder.authenticationRoute() {
                 )
             },
             onDialogDismissed = { message ->
+                viewModel.setLoading(false)
                 messageBarState.addError(Exception(message))
             },
+            navigateToHome = navigateToHome
         )
     }
 }

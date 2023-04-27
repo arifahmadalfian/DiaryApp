@@ -1,14 +1,11 @@
 package com.arifahmadalfian.diaryapp.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.arifahmadalfian.diaryapp.presentation.screen.auth.route.authenticationRoute
-import com.arifahmadalfian.diaryapp.util.Constants.WRITE_SCREEN_ARGUMENT_KEY
+import com.arifahmadalfian.diaryapp.presentation.screen.home.route.homeRoute
+import com.arifahmadalfian.diaryapp.presentation.screen.write.route.writeRoute
 
 @Composable
 fun SetupNavGraph(startDestination: String, navController: NavHostController) {
@@ -16,29 +13,13 @@ fun SetupNavGraph(startDestination: String, navController: NavHostController) {
         startDestination = startDestination,
         navController = navController
     ) {
-        authenticationRoute()
-        homeRoute()
-        writeRoute()
-    }
-}
-
-fun NavGraphBuilder.homeRoute() {
-    composable(route = Screen.Home.route) {
-
-    }
-}
-
-fun NavGraphBuilder.writeRoute() {
-    composable(
-        route = Screen.Write.route,
-        arguments = listOf(
-            navArgument(name = WRITE_SCREEN_ARGUMENT_KEY) {
-                type = NavType.StringType
-                nullable = true
-                defaultValue = null
+        authenticationRoute(
+            navigateToHome =  {
+                navController.popBackStack()
+                navController.navigate(Screen.Home.route)
             }
         )
-    ) {
-
+        homeRoute()
+        writeRoute()
     }
 }
