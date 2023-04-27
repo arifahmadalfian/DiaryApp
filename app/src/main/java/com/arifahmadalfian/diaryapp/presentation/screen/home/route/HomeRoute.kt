@@ -11,29 +11,19 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.arifahmadalfian.diaryapp.navigation.Screen
+import com.arifahmadalfian.diaryapp.presentation.screen.home.HomeScreen
 import com.arifahmadalfian.diaryapp.util.Constants.APP_ID
 import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-fun NavGraphBuilder.homeRoute() {
+fun NavGraphBuilder.homeRoute(
+    navigateToWrite: () -> Unit,
+) {
     composable(route = Screen.Home.route) {
-        val scope = rememberCoroutineScope()
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(
-                onClick = {
-                    scope.launch(Dispatchers.IO) {
-                        App.create(APP_ID).currentUser?.logOut()
-                    }
-                }
-            ) {
-                Text(text = "Logout")
-            }
-        }
+        HomeScreen(
+            navigateToWrite = navigateToWrite,
+            onMenuClicked = {  }
+        )
     }
 }
