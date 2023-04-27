@@ -41,6 +41,8 @@ class AuthenticationViewModel : ViewModel() {
                         onSuccess()
                         delay(600)
                         authenticated.value = true
+                    } else {
+                        onError(Exception("Failed to login"))
                     }
                 }
             } catch (e: Exception) {
